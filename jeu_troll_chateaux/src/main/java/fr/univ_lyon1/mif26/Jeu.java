@@ -154,6 +154,5 @@ public class Jeu {
         str.append("|\n");
         return str.toString();
     }
-
-
+    
 }
