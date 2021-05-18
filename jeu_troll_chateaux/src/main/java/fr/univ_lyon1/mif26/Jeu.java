@@ -58,7 +58,7 @@ public class Jeu {
      * @return
      */
     public int choix(final int joueur) {
-        StrategieAleatoire s = new StrategieAleatoire();
+        Strategie s = new StrategieAleatoire();
         return s.choix(nb_pierre[joueur], nb_pierre[(joueur + 1)%2], pos_troll);
     }
 
