@@ -5,6 +5,8 @@ public class Jeu {
     private final int nb_case;
     private int pos_troll;
     private final int nb_pierre[];
+    Strategie sI;
+    Strategie sA;
 
     /**
      * Constructeur par défaut.
@@ -16,6 +18,8 @@ public class Jeu {
         for (int i = 0; i < 2; i++) {
             this.nb_pierre[i] = 15;
         }
+        sI = new StrategiePrudente(2);
+        sA = new StrategieAleatoire();
     }
 
     /**
@@ -57,17 +61,22 @@ public class Jeu {
      * @param joueur
      * @return
      */
-    public int choix(final int joueur) {
-        Strategie s = new StrategieAleatoire();
-        return s.choix(nb_pierre[joueur], nb_pierre[(joueur + 1)%2], pos_troll);
+    public int choixA(final int joueur) {
+
+        return sA.choix(nb_pierre[joueur], nb_pierre[(joueur + 1)%2], pos_troll);
+    }
+
+    public int choixI(final int joueur) {
+
+        return sI.choix(nb_pierre[joueur], nb_pierre[(joueur + 1)%2], pos_troll);
     }
 
     /**
      * Joue un tour du jeu.
      */
     public void joueTour() {
-        int j0 = choix(0);
-        int j1 = choix(1);
+        int j0 = choixI(0);
+        int j1 = choixA(1);
 
         //pas possible de lancer plus de pierres que le joueur n'en a
         if (j0 > nb_pierre[0] || j1 > nb_pierre[1]) {

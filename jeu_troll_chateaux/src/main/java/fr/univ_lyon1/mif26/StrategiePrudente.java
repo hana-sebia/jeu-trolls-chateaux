@@ -1,8 +1,5 @@
 package fr.univ_lyon1.mif26;
 
-import java.io.Serializable;
-import java.util.HashMap;
-
 public class StrategiePrudente implements Strategie {
 
     public Gain gain;
@@ -12,13 +9,8 @@ public class StrategiePrudente implements Strategie {
     }
 
     public int choix(final int j0, final int j1, final int pos_troll) {
-        //gain.calculeMatrice(j0, j1, pos_troll);
-
-        return 0;
+        int g = gain.choix(j0, j1, pos_troll);
+        //System.out.println("je joue : " + g);
+        return g;
     }
-
-
-
-
-
 }

@@ -6,6 +6,7 @@ import com.quantego.clp.CLPExpression;
 import com.quantego.clp.CLPVariable;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Gain implements Serializable {
@@ -14,11 +15,13 @@ public class Gain implements Serializable {
 
     private static final File file = new File();
     private final int m;
-    private Double[] matriceProba;
-    public HashMap<String, Double> map;
+    private final HashMap<String, Double> mapGain;
+    private final HashMap<String, Double[]> mapProba;
 
     public Gain(final int m) {
         this.m = m;
+        this.mapGain = new HashMap<>();
+        this.mapProba = new HashMap<>();
     }
 
     public void saveToFile() {
@@ -27,14 +30,34 @@ public class Gain implements Serializable {
 
     public void addGain(final int j0, final int j1, final int pos_troll, Double g) {
         String key = j0 + "," + j1 + "," + pos_troll;
-        map.put(key, g);
+        mapGain.put(key, g);
+    }
+
+    public void addProba(final int j0, final int j1, final int pos_troll, Double[] tab) {
+        String key = j0 + "," + j1 + "," + pos_troll;
+        mapProba.put(key, tab);
     }
 
     public Double readGain(final int j0, final int j1, final int pos_troll) {
         String key = j0 + "," + j1 + "," + pos_troll;
-        if (map.containsKey(key))
-            return map.get(key);
+        if (mapGain.containsKey(key))
+            return mapGain.get(key);
         return null;
+    }
+
+    public Double[] readProba(final int j0, final int j1, final int pos_troll) {
+        String key = j0 + "," + j1 + "," + pos_troll;
+        if (mapProba.containsKey(key))
+            return mapProba.get(key);
+        return null;
+    }
+
+    public int choix(final int j0, final int j1, final int pos_troll) {
+        if (readGain(j0, j1, pos_troll) == null) {
+            calculeMatrice(j0, j1, pos_troll, true);
+        }
+        //System.out.println(Arrays.toString(readProba(j0, j1, pos_troll)));
+        return calculeCoupOpt(j0, j1, pos_troll);
     }
 
     public Double calculeMatrice(final int j0, final int j1, final int pos_troll, boolean premierAppel) {
@@ -69,15 +92,18 @@ public class Gain implements Serializable {
                 }
             }
         }
+
+        //résolution du système
         CLPVariable[] proba = new CLPVariable[j0];
         Double gOpt = resolutionSystemeLineaire(j0, j1, matriceGain, proba);
         addGain(j0, j1, pos_troll, gOpt);
 
+        //calcul coup d'après la proba et ajout dans la mapProbas
+        addProba(j0, j1, pos_troll, calculeProba(proba));
+
         if (premierAppel) {
-            matriceProba = new Double[j0];
-            calculeProba(proba);
-            System.out.println("gOpt(" + j0 + "," + j1 + "," + pos_troll + ") = " + gOpt);
-            System.out.println(toString());
+            //System.out.println("gOpt(" + j0 + "," + j1 + "," + pos_troll + ") = " + gOpt);
+            //System.out.println(Arrays.toString(readProba(j0, j1, pos_troll)));
         }
         return gOpt;
 
@@ -173,17 +199,33 @@ public class Gain implements Serializable {
         }
     }
 
-    public void calculeProba(final CLPVariable[] clpVariables) {
+    public Double[] calculeProba(final CLPVariable[] clpVariables) {
+        Double[] matriceProba = new Double[clpVariables.length];
         for (int i = 0; i < clpVariables.length; i++) {
             matriceProba[i] = clpVariables[i].getSolution();
         }
+        return matriceProba;
     }
+
+    public int calculeCoupOpt(final int j0, final int j1, final int t) {
+        int i = 0;
+        Double[] matriceProba = readProba(j0, j1, t);
+        double somme = matriceProba[0] * 100;
+        double randomNum = (Math.random() * 100);
+        //System.out.println(randomNum / 100);
+        while (randomNum > somme && i < matriceProba.length - 1) {
+            i = i + 1;
+            somme = somme + matriceProba[i] * 100;
+        }
+        return i + 1;
+}
+//s([}=
 
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder("");
-        for (String i : map.keySet()) {
-            str.append("g(").append(i).append(")=").append(map.get(i)).append("\n");
+        for (String i : mapGain.keySet()) {
+            str.append("g(").append(i).append(")=").append(mapGain.get(i)).append("\n");
         }
         return str.toString();
     }
