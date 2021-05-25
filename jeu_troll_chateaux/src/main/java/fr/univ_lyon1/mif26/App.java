@@ -3,11 +3,14 @@ package fr.univ_lyon1.mif26;
 public class App {
     public static void main( String[] args ) {
 
-        final int NB_JEUX = 1000;
+        final int NB_JEUX = 1;
         int n0 = 0;
         int n1 = 0;
         for (int i = 0; i < NB_JEUX; i++) {
-            Jeu jeu = new Jeu();
+            ChoixStrategie[] choixStrategies = new ChoixStrategie[2];
+            choixStrategies[0] = ChoixStrategie.PRUDENTE;
+            choixStrategies[1] = ChoixStrategie.ALEATOIRE;
+            Jeu jeu = new Jeu(15, 50, choixStrategies);
             while(jeu.finJeu() == -1) {
 //                System.out.println(jeu.toString());
                 jeu.joueTour();
@@ -22,17 +25,8 @@ public class App {
 //            System.out.println("Le joueur " + jeu.finJeu() + " a gagné");
         }
 
-       // =(s
-
         System.out.println(n0);
         System.out.println(n1);
-
-
-        /*StrategiePrudente p = new StrategiePrudente(1);
-        p.choix(5, 4, -1);*/
-
-
-
 
     }
 }
