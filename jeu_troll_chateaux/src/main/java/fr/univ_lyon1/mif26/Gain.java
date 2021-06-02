@@ -215,7 +215,7 @@ public class Gain implements Serializable {
             calculeMatrice(j0, j1, pos_troll, true);
             saveToFile();
         }
-        System.out.println(Arrays.toString(readProba(15,  15, 0)));
+        //System.out.println(Arrays.toString(readProba(15,  15, 0)));
         return calculeCoupOpt(j0, j1, pos_troll);
     }
 

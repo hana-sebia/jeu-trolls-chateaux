@@ -17,7 +17,6 @@ public class StrategiePrudente implements Strategie {
     }
 
     public int choix(final int j0, final int j1, final int pos_troll) {
-        int g = gain.choix(j0, j1, pos_troll);
-        return g;
+        return gain.choix(j0, j1, pos_troll);
     }
 }

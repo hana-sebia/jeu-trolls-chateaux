@@ -72,6 +72,13 @@ public class Jeu {
         }
     }
 
+    public void init(final int nb_pierres) {
+        this.pos_troll = 0;
+        for (int i = 0; i < 2; i++) {
+            joueurs[i].setNbPierre(nb_pierres);
+        }
+    }
+
     /**
      * Joue un tour du jeu.
      * Choix du nombre de pierres lancées et maj de pos_troll

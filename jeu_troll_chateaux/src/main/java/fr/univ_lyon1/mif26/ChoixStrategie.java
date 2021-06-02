@@ -6,9 +6,9 @@ public enum ChoixStrategie {
     @Override
     public String toString() {
         switch (this) {
-            case ALEATOIRE: return "aleatoire";
-            case PRUDENTE: return "prudente";
-            default: return "inconnue";
+            case ALEATOIRE: return "Aléatoire";
+            case PRUDENTE: return "Prudente";
+            default: return "UNKNOWN";
         }
     }
 }
