@@ -10,7 +10,7 @@ public class App {
             ChoixStrategie[] choixStrategies = new ChoixStrategie[2];
             choixStrategies[0] = ChoixStrategie.PRUDENTE;
             choixStrategies[1] = ChoixStrategie.ALEATOIRE;
-            Jeu jeu = new Jeu(15, 50, choixStrategies);
+            Jeu jeu = new Jeu(5, 15, choixStrategies);
             while(jeu.finJeu() == -1) {
 //                System.out.println(jeu.toString());
                 jeu.joueTour();
@@ -21,6 +21,7 @@ public class App {
             else if (jeu.finJeu() == 2) {
                 n1 = n1 + 1;
             }
+
 //            System.out.println(jeu.toString());
 //            System.out.println("Le joueur " + jeu.finJeu() + " a gagné");
         }

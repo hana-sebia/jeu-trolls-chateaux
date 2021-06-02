@@ -6,6 +6,7 @@ import com.quantego.clp.CLPExpression;
 import com.quantego.clp.CLPVariable;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Gain implements Serializable {
@@ -13,7 +14,7 @@ public class Gain implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final File file = new File();
-    private final int m;
+    private int m;
     private final HashMap<String, Double> mapGain;
     private final HashMap<String, Double[]> mapProba;
 
@@ -21,6 +22,10 @@ public class Gain implements Serializable {
         this.m = m;
         this.mapGain = new HashMap<>();
         this.mapProba = new HashMap<>();
+    }
+
+    public void setM(int m) {
+        this.m = m;
     }
 
     public void saveToFile() {
@@ -208,7 +213,9 @@ public class Gain implements Serializable {
     public int choix(final int j0, final int j1, final int pos_troll) {
         if (readGain(j0, j1, pos_troll) == null) {
             calculeMatrice(j0, j1, pos_troll, true);
+            //saveToFile();
         }
+        System.out.println(Arrays.toString(readProba(15,  15, 0)));
         return calculeCoupOpt(j0, j1, pos_troll);
     }
 
@@ -217,6 +224,10 @@ public class Gain implements Serializable {
         StringBuilder str = new StringBuilder();
         for (String i : mapGain.keySet()) {
             str.append("g(").append(i).append(")=").append(mapGain.get(i)).append("\n");
+        }
+        str.append("\n");
+        for (String i : mapProba.keySet()) {
+            str.append("p(").append(i).append(")=").append(Arrays.toString(mapProba.get(i))).append("\n");
         }
         return str.toString();
     }

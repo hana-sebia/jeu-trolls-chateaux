@@ -7,14 +7,13 @@ import java.io.ObjectOutputStream;
 
 public class File {
 
-    private static final String filepath = "data/n15";
+    private static final String filepath = "data/obj";
 
     public Object ReadObjectFromFile() {
         try {
             FileInputStream fileIn = new FileInputStream(filepath);
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             Object obj = objectIn.readObject();
-            System.out.println("The Object has been read from the file");
             objectIn.close();
             return obj;
         } catch (Exception ex) {
@@ -29,8 +28,6 @@ public class File {
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(serObj);
             objectOut.close();
-            System.out.println("The Object  was succesfully written to a file");
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

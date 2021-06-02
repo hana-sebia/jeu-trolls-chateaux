@@ -68,7 +68,7 @@ public class Jeu {
         this.pos_troll = 0;
         joueurs = new Joueur[2];
         for (int i = 0; i < 2; i++) {
-            joueurs[i] = new Joueur(nb_pierre, choixStrategie[i], (nb_case - 1) / 2);
+            joueurs[i] = new Joueur(nb_pierre, choixStrategie[i], (nb_case - 3) / 2);
         }
     }
 
