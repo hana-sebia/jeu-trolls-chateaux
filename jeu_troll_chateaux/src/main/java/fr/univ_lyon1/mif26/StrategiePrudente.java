@@ -7,8 +7,8 @@ public class StrategiePrudente implements Strategie {
     public Gain gain;
 
     public StrategiePrudente(final int m) {
-        //gain = readFromFile();
-        gain = new Gain(m);
+        gain = readFromFile();
+        //gain = new Gain(m);
         gain.setM(m);
     }
 

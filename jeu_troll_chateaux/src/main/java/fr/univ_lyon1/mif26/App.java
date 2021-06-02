@@ -10,7 +10,7 @@ public class App {
             ChoixStrategie[] choixStrategies = new ChoixStrategie[2];
             choixStrategies[0] = ChoixStrategie.PRUDENTE;
             choixStrategies[1] = ChoixStrategie.ALEATOIRE;
-            Jeu jeu = new Jeu(5, 15, choixStrategies);
+            Jeu jeu = new Jeu(7, 15, choixStrategies);
             while(jeu.finJeu() == -1) {
 //                System.out.println(jeu.toString());
                 jeu.joueTour();

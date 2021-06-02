@@ -33,24 +33,24 @@ public class Gain implements Serializable {
     }
 
     private void addGain(final int j0, final int j1, final int pos_troll, Double g) {
-        String key = j0 + "," + j1 + "," + pos_troll;
+        String key = j0 + "," + j1 + "," + pos_troll + ";" + m;
         mapGain.put(key, g);
     }
 
     private void addProba(final int j0, final int j1, final int pos_troll, Double[] tab) {
-        String key = j0 + "," + j1 + "," + pos_troll;
+        String key = j0 + "," + j1 + "," + pos_troll + ";" + m;
         mapProba.put(key, tab);
     }
 
     private Double readGain(final int j0, final int j1, final int pos_troll) {
-        String key = j0 + "," + j1 + "," + pos_troll;
+        String key = j0 + "," + j1 + "," + pos_troll + ";" + m;
         if (mapGain.containsKey(key))
             return mapGain.get(key);
         return null;
     }
 
     private Double[] readProba(final int j0, final int j1, final int pos_troll) {
-        String key = j0 + "," + j1 + "," + pos_troll;
+        String key = j0 + "," + j1 + "," + pos_troll + ";" + m;
         if (mapProba.containsKey(key))
             return mapProba.get(key);
         return null;
@@ -213,7 +213,7 @@ public class Gain implements Serializable {
     public int choix(final int j0, final int j1, final int pos_troll) {
         if (readGain(j0, j1, pos_troll) == null) {
             calculeMatrice(j0, j1, pos_troll, true);
-            //saveToFile();
+            saveToFile();
         }
         System.out.println(Arrays.toString(readProba(15,  15, 0)));
         return calculeCoupOpt(j0, j1, pos_troll);
