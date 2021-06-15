@@ -3,9 +3,11 @@ package fr.univ_lyon1.mif26;
 public class App {
     public static void main( String[] args ) {
 
-        Simulation simulation = new Simulation(15, 30, ChoixStrategie.PRUDENTE, ChoixStrategie.ALEATOIRE);
+        Simulation simulation = new Simulation(7, 15, ChoixStrategie.PRUDENTE, ChoixStrategie.ALEATOIRE);
         simulation.deroule();
 
+        //Gain gain = new Gain(1);
+        //gain.calculeMatrice(5,4,-1, true);
     }
 }
 

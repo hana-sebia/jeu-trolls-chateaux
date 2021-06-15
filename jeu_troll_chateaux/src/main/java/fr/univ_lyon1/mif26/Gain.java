@@ -57,7 +57,13 @@ public class Gain implements Serializable {
     }
 
     private Double gain(final int x, final int y, final int t) {
-        if (x == 0 && y == 0) {
+        if (t == -(m + 1)) {
+            return -1.0;
+        }
+        if (t == m + 1) {
+            return 1.0;
+        }
+        else if (x == 0 && y == 0) {
             if (t > 0) {
                 return 1.0;
             }
@@ -92,12 +98,6 @@ public class Gain implements Serializable {
             else {   // x = Math.abs(t) && t < 0
                 return 0.0;
             }
-        }
-        else if (t == -(m + 1)) {
-            return -1.0;
-        }
-        else if (t == m + 1) {
-            return 1.0;
         }
         else {      // x > 0 && y > 0 && x != y
             return null;
@@ -183,6 +183,7 @@ public class Gain implements Serializable {
                 }
                 else {
                     matriceGain[i][j] = calculeMatrice(new_j0, new_j1, new_pos_troll, false);
+                    matriceGain[i][j] = calculeMatrice(new_j0, new_j1, new_pos_troll, false);
                 }
             }
         }
@@ -195,6 +196,17 @@ public class Gain implements Serializable {
         //calcul coup d'après la proba et ajout dans la mapProbas
         addProba(j0, j1, pos_troll, calculeProba(proba));
 
+        /*if(premierAppel) {
+            for (i = 0; i < j0; i++) {
+                for (j = 0; j < j1; j++) {
+                    System.out.print(matriceGain[i][j] + "   ");
+                }
+                System.out.println();
+            }
+            //System.out.println(readGain(0,0,0));
+            System.out.println(gOpt);
+        }
+*/
         return gOpt;
     }
 
@@ -215,7 +227,8 @@ public class Gain implements Serializable {
             calculeMatrice(j0, j1, pos_troll, true);
             saveToFile();
         }
-        System.out.println(Arrays.toString(readProba(15,  15, 0)));
+        //System.out.println(Arrays.toString(readProba(15,  15, 0)));
+        //System.out.println(readGain(15,15,0));
         return calculeCoupOpt(j0, j1, pos_troll);
     }
 
