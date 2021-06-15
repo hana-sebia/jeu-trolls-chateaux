@@ -2,24 +2,26 @@ package fr.univ_lyon1.mif26;
 
 public class Simulation {
 
-    private int nb_cases;
-    private int nb_pierres;
-    private ChoixStrategie[] choixStrategies;
+    private final int nb_cases;
+    private final int nb_pierres;
+    private final ChoixStrategie[] choixStrategies;
     private static final int NB_JEUX = 1000;
 
 
     public Simulation() {
-        this.nb_cases = 7;
+        this.nb_cases = 15;
         this.nb_pierres = 15;
         choixStrategies = new ChoixStrategie[2];
         choixStrategies[0] = ChoixStrategie.PRUDENTE;
         choixStrategies[1] = ChoixStrategie.ALEATOIRE;
     }
 
-    public Simulation(final int nb_cases, final int nb_pierres, ChoixStrategie[] choixStrategies) {
+    public Simulation(final int nb_cases, final int nb_pierres, final ChoixStrategie c0, final ChoixStrategie c1) {
         this.nb_cases = nb_cases;
         this.nb_pierres = nb_pierres;
-        this.choixStrategies = choixStrategies;
+        this.choixStrategies = new ChoixStrategie[2];
+        this.choixStrategies[0] = c0;
+        this.choixStrategies[1] = c1;
     }
 
     public void deroule() {
@@ -40,7 +42,7 @@ public class Simulation {
             //System.out.println(jeu.toString());
             //System.out.println("Le joueur " + jeu.finJeu() + " a gagné");
         }
-        System.out.println("\nRatios de victoires :");
+        System.out.println("\nRatios de victoires pour " + nb_cases + " cases :");
         System.out.println("     " + choixStrategies[0] + " : " + ((float)v0 * 100 / NB_JEUX) + "%");
         System.out.println("     " + choixStrategies[1] + " : " + ((float)v1 * 100 / NB_JEUX) + "%");
     }
