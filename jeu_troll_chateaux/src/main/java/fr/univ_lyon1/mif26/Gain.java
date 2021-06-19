@@ -13,15 +13,16 @@ public class Gain implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final File file = new File();
     private int m;
+    private final int idJoueur;
     private final HashMap<String, Double> mapGain;
     private final HashMap<String, Double[]> mapProba;
 
-    public Gain(final int m) {
+    public Gain(final int idJoueur, final int m) {
         this.m = m;
         this.mapGain = new HashMap<>();
         this.mapProba = new HashMap<>();
+        this.idJoueur = idJoueur;
     }
 
     public void setM(int m) {
@@ -29,7 +30,7 @@ public class Gain implements Serializable {
     }
 
     public void saveToFile() {
-        file.WriteObjectToFile(this);
+        File.WriteObjectToFile(this, idJoueur);
     }
 
     private void addGain(final int j0, final int j1, final int pos_troll, Double g) {
@@ -195,18 +196,6 @@ public class Gain implements Serializable {
 
         //calcul coup d'après la proba et ajout dans la mapProbas
         addProba(j0, j1, pos_troll, calculeProba(proba));
-
-        /*if(premierAppel) {
-            for (i = 0; i < j0; i++) {
-                for (j = 0; j < j1; j++) {
-                    System.out.print(matriceGain[i][j] + "   ");
-                }
-                System.out.println();
-            }
-            //System.out.println(readGain(0,0,0));
-            System.out.println(gOpt);
-        }
-*/
         return gOpt;
     }
 
@@ -227,8 +216,9 @@ public class Gain implements Serializable {
             calculeMatrice(j0, j1, pos_troll, true);
             saveToFile();
         }
+        // Vérifier le gain et le tableau de probabilité de (x , y, pos_troll)
+        //System.out.println(readGain(15, 15, 0));
         //System.out.println(Arrays.toString(readProba(15,  15, 0)));
-        //System.out.println(readGain(15,15,0));
         return calculeCoupOpt(j0, j1, pos_troll);
     }
 
@@ -240,7 +230,7 @@ public class Gain implements Serializable {
         }
         str.append("\n");
         for (String i : mapProba.keySet()) {
-            str.append("p(").append(i).append(")=").append(Arrays.toString(mapProba.get(i))).append("\n");
+            str.append("p(").append(i).append(")=").append(Arrays.toString(mapProba.get(i)));
         }
         return str.toString();
     }

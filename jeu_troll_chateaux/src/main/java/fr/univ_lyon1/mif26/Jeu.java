@@ -14,7 +14,13 @@ public class Jeu {
         this.pos_troll = 0;
         joueurs = new Joueur[2];
         for (int i = 0; i < 2; i++) {
-            joueurs[i] = new Joueur(15);
+            if (i % 2 == 0) {
+                joueurs[i] = new Joueur(15, false);
+            }
+            else {
+                joueurs[i] = new Joueur(15, true);
+            }
+
         }
     }
 
@@ -29,9 +35,14 @@ public class Jeu {
         }
         this.nb_case = nb_case;
         this.pos_troll = 0;
-        joueurs = new Joueur[2];
+        this.joueurs = new Joueur[2];
         for (int i = 0; i < 2; i++) {
-            joueurs[i] = new Joueur(15);
+            if (i % 2 == 0) {
+                joueurs[i] = new Joueur(15, false);
+            }
+            else {
+                joueurs[i] = new Joueur(15, true);
+            }
         }
     }
 
@@ -47,9 +58,14 @@ public class Jeu {
         }
         this.nb_case = nb_case;
         this.pos_troll = 0;
-        joueurs = new Joueur[2];
+        this.joueurs = new Joueur[2];
         for (int i = 0; i < 2; i++) {
-            joueurs[i] = new Joueur(nb_pierre);
+            if (i % 2 == 0) {
+                joueurs[i] = new Joueur(nb_pierre, false);
+            }
+            else {
+                joueurs[i] = new Joueur(nb_pierre, true);
+            }
         }
     }
 
@@ -68,7 +84,13 @@ public class Jeu {
         this.pos_troll = 0;
         joueurs = new Joueur[2];
         for (int i = 0; i < 2; i++) {
-            joueurs[i] = new Joueur(nb_pierre, choixStrategie[i], (nb_case - 3) / 2);
+            if (i % 2 == 0){
+                joueurs[i] = new Joueur(nb_pierre, choixStrategie[i], false, (nb_case - 3) / 2);
+            }
+            else {
+                joueurs[i] = new Joueur(nb_pierre, choixStrategie[i], true, (nb_case - 3) / 2);
+            }
+
         }
     }
 
@@ -127,23 +149,23 @@ public class Jeu {
      */
     public int finJeu() {
         if (joueurs[0].getNbPierre() == 0) {
-            while (joueurs[1].getNbPierre() > 0 && Math.abs(pos_troll) < nb_case/2) {
+            while (joueurs[1].getNbPierre() > 0 && Math.abs(pos_troll) < ((nb_case-1)/2)) {
                 pos_troll = pos_troll - 1;
                 joueurs[1].retireNbPierre(1);
             }
             return resultPosTroll();
         }
         else if (joueurs[1].getNbPierre() == 0) {
-            while (joueurs[0].getNbPierre() > 0 && Math.abs(pos_troll) < nb_case/2) {
+            while (joueurs[0].getNbPierre() > 0 && Math.abs(pos_troll) < ((nb_case-1)/2)) {
                 pos_troll = pos_troll + 1;
                 joueurs[0].retireNbPierre(1);
             }
             return resultPosTroll();
         }
-        else if (pos_troll == (nb_case / 2)) {
+        else if (pos_troll == ((nb_case-1)/2)) {
             return 1;
         }
-        else if (pos_troll == -(nb_case / 2) ) {
+        else if (pos_troll == -((nb_case-1)/2)) {
             return 2;
         }
         return -1;

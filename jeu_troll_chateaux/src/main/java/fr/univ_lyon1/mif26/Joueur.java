@@ -4,20 +4,23 @@ public class Joueur {
 
     private int nb_pierre;
     private final Strategie strategie;
+    private final boolean inverse;
 
-    public Joueur(final int nb_pierre) {
+    public Joueur(final int nb_pierre, final boolean inverse) {
         this.nb_pierre = nb_pierre;
-        strategie = new StrategieAleatoire();
+        this.strategie = new StrategieAleatoire();
+        this.inverse = inverse;
     }
 
-    public Joueur(final int nb_pierre, ChoixStrategie choixStrategie, final int m) {
+    public Joueur(final int nb_pierre, ChoixStrategie choixStrategie, final boolean inverse, final int m) {
         this.nb_pierre = nb_pierre;
         if (choixStrategie == ChoixStrategie.PRUDENTE) {
-            strategie = new StrategiePrudente(m);
+            strategie = new StrategiePrudente(inverse ? 2 : 1, m);
         }
         else {
             strategie = new StrategieAleatoire();
         }
+        this.inverse = inverse;
     }
 
     public int getNbPierre() {
@@ -34,9 +37,16 @@ public class Joueur {
 
     public int joue(final int adversaire, final int pos_troll) {
         //choisit le nombre pierre à lancer en fct de la stratégie
-        int choix = strategie.choix(this.nb_pierre, adversaire, pos_troll);
+        int choix;
+        if (inverse) {
+            choix = strategie.choix(this.nb_pierre, adversaire, -pos_troll);
+        }
+        else {
+            choix = strategie.choix(this.nb_pierre, adversaire, pos_troll);
+        }
+
         //maj de nb_pierre
-        nb_pierre = nb_pierre - choix;
+        this.retireNbPierre(choix);
         return choix;
     }
 }
