@@ -9,6 +9,11 @@ public class File {
 
     private static final String filepath = "data/obj";
 
+    /**
+     * Lecture de l'objet Gain
+     * @param idJoueur identifiant du joueur (1 ou 2)
+     * @return
+     */
     public static Object ReadObjectFromFile(final int idJoueur) {
         try {
             FileInputStream fileIn = new FileInputStream(filepath + idJoueur);
@@ -22,6 +27,11 @@ public class File {
         }
     }
 
+    /**
+     * Écriture de l'objet Gain
+     * @param idJoueur identifiant du joueur (1 ou 2)
+     * @return
+     */
     public static void WriteObjectToFile(Object serObj, final int idJoueur) {
         try {
             FileOutputStream fileOut = new FileOutputStream(filepath + idJoueur);

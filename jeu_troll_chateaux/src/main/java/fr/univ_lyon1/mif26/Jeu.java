@@ -94,6 +94,10 @@ public class Jeu {
         }
     }
 
+    /**
+     * Réinitialise le jeu en remettant le meme nombre de pierres pour les deux joueurs
+     * @param nb_pierres nombre de pierres à donner aux deux joueurs
+     */
     public void init(final int nb_pierres) {
         this.pos_troll = 0;
         for (int i = 0; i < 2; i++) {
