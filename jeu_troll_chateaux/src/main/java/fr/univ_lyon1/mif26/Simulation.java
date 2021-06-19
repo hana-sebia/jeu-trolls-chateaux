@@ -42,8 +42,9 @@ public class Simulation {
             //System.out.println(jeu.toString());
             //System.out.println("Le joueur " + jeu.finJeu() + " a gagné");
         }
-        System.out.println("\nRatios de victoires pour " + nb_cases + " cases :");
+        System.out.println("\nRatios de victoires pour " + nb_cases + " cases  et " + nb_pierres + " pierres : ");
         System.out.println("     " + choixStrategies[0] + " : " + ((float)v0 * 100 / NB_JEUX) + "%");
         System.out.println("     " + choixStrategies[1] + " : " + ((float)v1 * 100 / NB_JEUX) + "%");
+        System.out.println();
     }
 }

@@ -3,11 +3,40 @@ package fr.univ_lyon1.mif26;
 public class App {
     public static void main( String[] args ) {
 
-        Simulation simulation = new Simulation(7, 15, ChoixStrategie.PRUDENTE, ChoixStrategie.ALEATOIRE);
+        ChoixStrategie[] choixStrategies = new ChoixStrategie[2];
+        choixStrategies[0] = ChoixStrategie.PRUDENTE;
+        choixStrategies[1] = ChoixStrategie.ALEATOIRE;
+        Jeu jeu = new Jeu(15, 30, choixStrategies);
+        while(jeu.finJeu() == -1) {
+            System.out.println(jeu.toString());
+            jeu.joueTour();
+        }
+        System.out.println(jeu.toString());
+        if (jeu.finJeu() == 1) {
+            System.out.println("Le joueur 1 ayant la stratégie " + choixStrategies[0] + " a gagné!");
+        }
+        else if (jeu.finJeu() == 2) {
+            System.out.println("Le joueur 2 ayant la stratégie " + choixStrategies[1] + " a gagné!");
+        }
+
+        /*Simulation simulation = new Simulation(5, 15, ChoixStrategie.PRUDENTE, ChoixStrategie.ALEATOIRE);
         simulation.deroule();
 
-        //Gain gain = new Gain(1);
+        simulation = new Simulation(7, 15, ChoixStrategie.PRUDENTE, ChoixStrategie.ALEATOIRE);
+        simulation.deroule();
+
+        simulation = new Simulation(7, 30, ChoixStrategie.PRUDENTE, ChoixStrategie.ALEATOIRE);
+        simulation.deroule();
+
+        simulation = new Simulation(15, 30, ChoixStrategie.PRUDENTE, ChoixStrategie.ALEATOIRE);
+        simulation.deroule();
+
+        simulation = new Simulation(15, 50, ChoixStrategie.PRUDENTE, ChoixStrategie.ALEATOIRE);
+        simulation.deroule();*/
+
+       /* Gain gain = new Gain(4);
         //gain.calculeMatrice(5,4,-1, true);
+        gain.choix(15,15,0);*/
     }
 }
 
