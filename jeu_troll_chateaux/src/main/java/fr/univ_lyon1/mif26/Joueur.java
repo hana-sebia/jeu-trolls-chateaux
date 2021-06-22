@@ -29,6 +29,18 @@ public class Joueur {
         if (choixStrategie == ChoixStrategie.PRUDENTE) {
             strategie = new StrategiePrudente(inverse ? 2 : 1, m);
         }
+        else if (choixStrategie == ChoixStrategie.PRUDENTEQ3) {
+            strategie = new StrategiePrudenteQ3(inverse ? 2 : 1, m);
+        }
+        else if (choixStrategie == ChoixStrategie.ALEATOIREQ3) {
+            strategie = new StrategieAleatoireQ3();
+        }
+        else if (choixStrategie == ChoixStrategie.ALEATOIREIMPAIR) {
+            strategie = new StrategieAleatoireImpair();
+        }
+        else if (choixStrategie == ChoixStrategie.PRUDENTEIMPAIR) {
+            strategie = new StrategiePrudenteImpair(inverse ? 2 : 1, m);
+        }
         else {
             strategie = new StrategieAleatoire();
         }

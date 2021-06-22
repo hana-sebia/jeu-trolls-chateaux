@@ -5,7 +5,7 @@ public class Simulation {
     private final int nb_cases;
     private final int nb_pierres;
     private final ChoixStrategie[] choixStrategies;
-    private static final int NB_JEUX = 1000; //nombre de simulation
+    private static final int NB_JEUX = 10000; //nombre de simulation
 
     /**
      * Constructeur par défaut. Initialise les paramètres avec la configuration standard du jeu.

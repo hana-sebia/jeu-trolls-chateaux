@@ -11,11 +11,11 @@ public class StrategiePrudente implements Strategie {
      */
     public StrategiePrudente(final int idJoueur, final int m) {
         //repartir de 0
-        //gain = new Gain(idJoueur, m);
+        gain = new Gain(idJoueur, m);
 
         //lecture fichier de sauvegarde pour éviter les calculs déjà connus
-        gain = readFromFile(idJoueur);
-        gain.setM(m);
+        //gain = readFromFile(idJoueur);
+        //gain.setM(m);
     }
 
     /**
