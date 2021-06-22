@@ -9,13 +9,13 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class GainImpair implements Serializable {
+public class GainDouble implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private int m;
     private final int idJoueur;
-    private final HashMap<String, Double> mapGainImpair;
+    private final HashMap<String, Double> mapGainDouble;
     private final HashMap<String, Double[]> mapProba;
 
     /**
@@ -23,9 +23,9 @@ public class GainImpair implements Serializable {
      * @param idJoueur identifiant du joueur (1 ou 2)
      * @param m paramètre m du plateau
      */
-    public GainImpair(final int idJoueur, final int m) {
+    public GainDouble(final int idJoueur, final int m) {
         this.m = m;
-        this.mapGainImpair = new HashMap<>();
+        this.mapGainDouble = new HashMap<>();
         this.mapProba = new HashMap<>();
         this.idJoueur = idJoueur;
     }
@@ -39,15 +39,22 @@ public class GainImpair implements Serializable {
     }
 
     /**
-     * Ajout d'un GainImpair dans mapGainImpair.
+     * Sauvegarde des GainDoubles et probabilités connus dans un fichier.
+     */
+    public void saveToFile() {
+        File.WriteObjectToFile(this, idJoueur);
+    }
+
+    /**
+     * Ajout d'un GainDouble dans mapGainDouble.
      * @param j0 nombre de pierres du joueur 1
      * @param j1 nombre de pierres du joueur 2
      * @param pos_troll position du troll
      * @param g G(j0, j1, pos_troll)
      */
-    private void addGainImpair(final int j0, final int j1, final int pos_troll, Double g) {
+    private void addGainDouble(final int j0, final int j1, final int pos_troll, Double g) {
         String key = j0 + "," + j1 + "," + pos_troll + ";" + m;
-        mapGainImpair.put(key, g);
+        mapGainDouble.put(key, g);
     }
 
     /**
@@ -63,16 +70,16 @@ public class GainImpair implements Serializable {
     }
 
     /**
-     * Lecture du GainImpair dans mapGainImpair.
+     * Lecture du GainDouble dans mapGainDouble.
      * @param j0 nombre de pierres du joueur 1
      * @param j1 nombre de pierres du joueur 2
      * @param pos_troll position du troll
-     * @return G(j0, j1, pos_troll) si le GainImpair de cette configuration est connu, null sinon
+     * @return G(j0, j1, pos_troll) si le GainDouble de cette configuration est connu, null sinon
      */
-    private Double readGainImpair(final int j0, final int j1, final int pos_troll) {
+    private Double readGainDouble(final int j0, final int j1, final int pos_troll) {
         String key = j0 + "," + j1 + "," + pos_troll + ";" + m;
-        if (mapGainImpair.containsKey(key))
-            return mapGainImpair.get(key);
+        if (mapGainDouble.containsKey(key))
+            return mapGainDouble.get(key);
         return null;
     }
 
@@ -91,13 +98,13 @@ public class GainImpair implements Serializable {
     }
 
     /**
-     * Calcul du GainImpair (cas de bases).
+     * Calcul du GainDouble (cas de bases).
      * @param j0 nombre de pierres du joueur 1
      * @param j1 nombre de pierres du joueur 2
      * @param t position du troll
      * @return G(j0, j1, t) si cette configuration correspond à un cas de base, null sinon
      */
-    private Double gainImpair(final int j0, final int j1, final int t) {
+    private Double GainDouble(final int j0, final int j1, final int t) {
         if (t == -(m + 1)) {
             return -1.0;
         }
@@ -146,9 +153,9 @@ public class GainImpair implements Serializable {
      * Résolution du système linéaire.
      * @param j0 nombre de pierres du joueur 1
      * @param j1 nombre de pierres du joueur 2
-     * @param matrice matrice de GainImpairs
+     * @param matrice matrice de GainDoubles
      * @param proba tableau de probabilités
-     * @return maximisation du GainImpair
+     * @return maximisation du GainDouble
      */
     private Double resolutionSystemeLineaire(final int j0, final int j1, final Double[][] matrice, CLPVariable[] proba) {
         int i,j;
@@ -175,7 +182,7 @@ public class GainImpair implements Serializable {
         equationSolver.setObjectiveCoefficient(g, 1);
 
         //Contraintes sur les stratégies
-        for(j = 0; j < j1; j = j + 2){
+        for(j = 0; j < j1; j++){
             CLPExpression expr = equationSolver.createExpression();
             for(i = 0; i < j0; i++){
                 expr.add(proba[i], matrice[i][j]);
@@ -206,7 +213,7 @@ public class GainImpair implements Serializable {
     }
 
     /**
-     * Calcul de la matrice de GainImpair
+     * Calcul de la matrice de GainDouble
      * @param j0 nombre de pierres du joueur 1
      * @param j1 nombre de pierres du joueur 2
      * @param pos_troll position du troll
@@ -214,7 +221,7 @@ public class GainImpair implements Serializable {
      */
     public Double calculeMatrice(final int j0, final int j1, final int pos_troll) {
         int i, j, new_pos_troll, new_j0, new_j1;
-        Double[][] matriceGainImpair = new Double[j0][j1];
+        Double[][] matriceGainDouble = new Double[j0][j1];
 
         for (i = 0; i < j0; i++) {
             new_j0 = j0 - i - 1;
@@ -222,7 +229,12 @@ public class GainImpair implements Serializable {
                 new_j1 = j1 - j - 1;
                 // mise à jour de la position du troll en fonction des pierres lancées
                 if (i > j) {
-                    new_pos_troll = pos_troll + 1;
+                    if ((i > j + 2) && (pos_troll < m)) {
+                        new_pos_troll = pos_troll + 2;
+                    }
+                    else {
+                        new_pos_troll = pos_troll + 1;
+                    }
                 }
                 else if (i < j) {
                     new_pos_troll = pos_troll - 1;
@@ -232,25 +244,26 @@ public class GainImpair implements Serializable {
                 }
 
                 // résultat connu
-                if (readGainImpair(new_j0, new_j1, new_pos_troll) != null) {
-                    matriceGainImpair[i][j] = readGainImpair(new_j0, new_j1, new_pos_troll);
+                if (readGainDouble(new_j0, new_j1, new_pos_troll) != null) {
+                    matriceGainDouble[i][j] = readGainDouble(new_j0, new_j1, new_pos_troll);
                 }
                 // cas trivial
                 else if (new_j0 == 0 || new_j1 == 0
+                        || (new_j0 == new_j1 && new_pos_troll == 0)
                         || Math.abs(new_pos_troll) == m + 1) {
-                    matriceGainImpair[i][j] = gainImpair(new_j0, new_j1, new_pos_troll);
+                    matriceGainDouble[i][j] = GainDouble(new_j0, new_j1, new_pos_troll);
                 }
                 else {
-                    matriceGainImpair[i][j] = calculeMatrice(new_j0, new_j1, new_pos_troll);
-                    matriceGainImpair[i][j] = calculeMatrice(new_j0, new_j1, new_pos_troll);
+                    matriceGainDouble[i][j] = calculeMatrice(new_j0, new_j1, new_pos_troll);
+                    matriceGainDouble[i][j] = calculeMatrice(new_j0, new_j1, new_pos_troll);
                 }
             }
         }
 
         //résolution du système
         CLPVariable[] proba = new CLPVariable[j0];
-        Double gOpt = resolutionSystemeLineaire(j0, j1, matriceGainImpair, proba);
-        addGainImpair(j0, j1, pos_troll, gOpt);
+        Double gOpt = resolutionSystemeLineaire(j0, j1, matriceGainDouble, proba);
+        addGainDouble(j0, j1, pos_troll, gOpt);
 
         //calcul coup d'après la proba et ajout dans la mapProbas
         addProba(j0, j1, pos_troll, calculeProba(proba));
@@ -277,23 +290,24 @@ public class GainImpair implements Serializable {
     }
 
     /**
-     * Calcule la matrice de GainImpair
+     * Calcule la matrice de GainDouble
      * @param j0 nombre de pierres du joueur 1
      * @param j1 nombre de pierres du joueur 2
      * @param pos_troll position du troll
      * @return
      */
     public int choix(final int j0, final int j1, final int pos_troll) {
-        if (readGainImpair(j0, j1, pos_troll) == null) {
+        if (readGainDouble(j0, j1, pos_troll) == null) {
             calculeMatrice(j0, j1, pos_troll);
+            saveToFile();
         }
-        // Vérifier le GainImpair et le tableau de probabilité de (x , y, pos_troll)
-        //System.out.println(readGainImpair(20, 20, 0));
-        System.out.println(Arrays.toString(readProba(20,  20, 0)));
+        // Vérifier le GainDouble et le tableau de probabilité de (x , y, pos_troll)
+        //System.out.println(readGainDouble(20, 20, 0));
+        //System.out.println(Arrays.toString(readProba(20,  6, 0)));
 
         /*System.out.print("g(25,x,-1) = [");
         for (int i = 0; i < 30; i++) {
-            System.out.print(i + ": " + readGainImpair(25, i, -1) + " ; ");
+            System.out.print(i + ": " + readGainDouble(25, i, -1) + " ; ");
         }
         System.out.println("\n");*/
 
@@ -303,8 +317,8 @@ public class GainImpair implements Serializable {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        for (String i : mapGainImpair.keySet()) {
-            str.append("g(").append(i).append(")=").append(mapGainImpair.get(i)).append("\n");
+        for (String i : mapGainDouble.keySet()) {
+            str.append("g(").append(i).append(")=").append(mapGainDouble.get(i)).append("\n");
         }
         str.append("\n");
         for (String i : mapProba.keySet()) {
@@ -314,3 +328,6 @@ public class GainImpair implements Serializable {
     }
 
 }
+
+
+

@@ -41,6 +41,9 @@ public class Joueur {
         else if (choixStrategie == ChoixStrategie.PRUDENTEIMPAIR) {
             strategie = new StrategiePrudenteImpair(inverse ? 2 : 1, m);
         }
+        else if (choixStrategie == ChoixStrategie.PRUDENTEDOUBLE) {
+            strategie = new StrategiePrudenteDouble(inverse ? 2 : 1, m);
+        }
         else {
             strategie = new StrategieAleatoire();
         }

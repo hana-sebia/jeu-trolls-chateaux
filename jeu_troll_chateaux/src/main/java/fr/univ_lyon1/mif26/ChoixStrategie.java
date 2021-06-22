@@ -1,7 +1,7 @@
 package fr.univ_lyon1.mif26;
 
 public enum ChoixStrategie {
-    ALEATOIRE, PRUDENTE, ALEATOIREQ3, PRUDENTEQ3, ALEATOIREIMPAIR, PRUDENTEIMPAIR;
+    ALEATOIRE, PRUDENTE, ALEATOIREQ3, PRUDENTEQ3, ALEATOIREIMPAIR, PRUDENTEIMPAIR, PRUDENTEDOUBLE;
 
     @Override
     public String toString() {
@@ -12,6 +12,7 @@ public enum ChoixStrategie {
             case PRUDENTEQ3: return "PrudenteQ3";
             case ALEATOIREIMPAIR: return "Aléatoire impair";
             case PRUDENTEIMPAIR: return "Prudente impair";
+            case PRUDENTEDOUBLE: return "Prudente double";
             default: return "UNKNOWN";
         }
     }

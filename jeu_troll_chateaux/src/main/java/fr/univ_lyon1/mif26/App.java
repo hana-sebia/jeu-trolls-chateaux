@@ -14,10 +14,10 @@ public class App {
             jeu.joueTour();
         }*/
 
+        /*Simulation simulation = new Simulation(7, 20, ChoixStrategie.PRUDENTEIMPAIR, ChoixStrategie.ALEATOIREIMPAIR);
+        simulation.deroule();*/
 
-
-
-        Simulation simulation = new Simulation(7, 20, ChoixStrategie.ALEATOIREIMPAIR, ChoixStrategie.PRUDENTEIMPAIR);
+        SimulationDouble simulation = new SimulationDouble(7, 20, ChoixStrategie.PRUDENTEDOUBLE, ChoixStrategie.ALEATOIRE);
         simulation.deroule();
 
         /*simulation = new Simulation(7, 15, ChoixStrategie.PRUDENTE, ChoixStrategie.ALEATOIRE);
